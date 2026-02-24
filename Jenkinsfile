@@ -49,6 +49,11 @@ parameters {
       steps {
         input message: 'Appliquer le plan Terraform sur AWS ?'
         sh 'terraform apply -input=false tfplan'
+        post {
+            always {
+                cleanWs()
+            }
+        }
       }
     }
   }
