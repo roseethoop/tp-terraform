@@ -27,11 +27,11 @@ parameters {
       steps { sh 'terraform fmt -check -recursive' }
     }
 
-    stage('Init') {
+   stage('Init') {
   steps {
     sh """
-      terraform init -input=false \
-      -backend-config="key=${params.CLIENT}-${params.ENVIRONMENT}.tfstate"
+      terraform init -input=false -reconfigure \
+      -backend-config="key=client1-${params.ENVIRONMENT}.tfstate"
     """
   }
 }
