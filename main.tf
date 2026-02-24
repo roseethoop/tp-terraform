@@ -23,7 +23,7 @@ resource "aws_subnet" "public" {
   }
 }
 
- 
+
 # Subnets privés (2 AZ)
 
 resource "aws_subnet" "private" {
@@ -239,7 +239,7 @@ resource "aws_instance" "web" {
   vpc_security_group_ids = [aws_security_group.web.id]
   key_name               = var.key_name
 
- user_data = <<-EOF
+  user_data = <<-EOF
   #!/bin/bash
   dnf update -y
   dnf install -y httpd
