@@ -1,8 +1,23 @@
 pipeline {
   agent any
+
+  parameters {
+    choice(
+      name: 'ENVIRONMENT',
+      choices: ['dev', 'staging', 'prod'],
+      description: 'Choisir l’environnement'
+    )
+  }
+
   options { timestamps() }
 
   stages {
+    stage('Afficher choix') {
+      steps {
+        echo "Environnement sélectionné : ${params.ENVIRONMENT}"
+      }
+    }
+
     stage('Checkout') {
       steps { checkout scm }
     }
