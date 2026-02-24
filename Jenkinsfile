@@ -1,13 +1,10 @@
 pipeline {
   agent any
 
-  parameters {
-    choice(
-      name: 'ENVIRONMENT',
-      choices: ['dev', 'staging', 'prod'],
-      description: 'Choisir l’environnement'
-    )
-  }
+parameters {
+  string(name: 'CLIENT', defaultValue: 'client1', description: 'Nom du client')
+  choice(name: 'ENVIRONMENT', choices: ['dev', 'staging', 'prod'], description: 'Environnement')
+}
 
   options { timestamps() }
 
@@ -31,8 +28,13 @@ pipeline {
     }
 
     stage('Init') {
-      steps { sh 'terraform init -input=false' }
-    }
+  steps {
+    sh """
+      terraform init -input=false \
+      -backend-config="key=${params.CLIENT}-${params.ENVIRONMENT}.tfstate"
+    """
+  }
+}
 
     stage('Validate') {
       steps { sh 'terraform validate' }
